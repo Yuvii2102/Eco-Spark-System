@@ -66,7 +66,7 @@ The goal of this project is to raise awareness about carbon-efficient computing 
 
 ## 👨‍💻 Author
 
-Created  a student eco-tech dashboard project by Yuvraj.R
+Created  a student eco-tech dashboard, project by Yuvraj.R
 
 ---
 
