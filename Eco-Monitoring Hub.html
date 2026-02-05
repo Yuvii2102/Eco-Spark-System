@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eco Monitoring Hub</title>
+
+<style>
+
+/* ===== GLOBAL STYLE ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#020617,#0f172a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ===== DASHBOARD CARD ===== */
+.panel {
+    background: #111827;
+    padding: 30px;
+    border-radius: 18px;
+    width: 360px;
+    text-align: center;
+    border: 1px solid #1f2937;
+    box-shadow: 0 0 25px rgba(0,255,150,0.2);
+}
+
+h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #34d399;
+}
+
+.tag {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-bottom: 25px;
+}
+
+/* ===== STATUS RING ===== */
+.ring {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 7px solid #374151;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.4s;
+}
+
+.value {
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.unit {
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+/* ===== STATUS COLORS ===== */
+.low { border-color:#22c55e; color:#22c55e; }
+.mid { border-color:#facc15; color:#facc15; }
+.high { border-color:#ef4444; color:#ef4444; }
+
+/* ===== MESSAGE BOX ===== */
+.tip {
+    margin-top: 20px;
+    padding: 12px;
+    background: #1f2937;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    margin-top: 18px;
+    font-size: 10px;
+    opacity: 0.4;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+
+<h2>🌍 Eco Monitoring Hub</h2>
+<div class="tag">Live Carbon Intensity Dashboard</div>
+
+<div id="loading">Connecting to energy grid...</div>
+
+<div id="main" style="display:none">
+
+<div id="ring" class="ring">
+<div id="val" class="value">--</div>
+<div class="unit">gCO₂/kWh</div>
+</div>
+
+<div id="tip" class="tip">
+Analyzing grid carbon levels...
+</div>
+
+<div class="footer">
+Live UK Carbon Grid Data — Smart Eco Monitoring
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadCarbon() {
+
+try {
+
+let res = await fetch("https://api.carbonintensity.org.uk/intensity");
+let data = await res.json();
+
+let value = data.data[0].intensity.actual;
+let state = data.data[0].intensity.index;
+
+updateDisplay(value, state);
+
+}
+catch {
+document.getElementById("loading").innerText =
+"⚠ Unable to fetch carbon data";
+}
+
+}
+
+function updateDisplay(value, state) {
+
+let ring = document.getElementById("ring");
+let tip = document.getElementById("tip");
+
+document.getElementById("loading").style.display="none";
+document.getElementById("main").style.display="block";
+
+document.getElementById("val").innerText=value;
+
+ring.classList.remove("low","mid","high");
+
+if(state==="very low" || state==="low") {
+
+ring.classList.add("low");
+tip.innerText="✅ Grid is clean — run heavy tasks now";
+
+}
+else if(state==="moderate") {
+
+ring.classList.add("mid");
+tip.innerText="⚠ Moderate carbon — balanced usage advised";
+
+}
+else {
+
+ring.classList.add("high");
+tip.innerText="🛑 High carbon — delay intensive tasks";
+
+}
+
+}
+
+loadCarbon();
+
+</script>
+
+</body>
+</html
