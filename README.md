@@ -70,6 +70,4 @@ Created  a student eco-tech dashboard, project by Yuvraj.R
 
 ---
 
-## 📜 License
 
-Free to use for learning and academic purposes.
