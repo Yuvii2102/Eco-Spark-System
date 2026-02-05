@@ -1,4 +1,4 @@
-# 🌍 Eco Monitoring Hub
+                                                       # 🌍 Eco Monitoring Hub
 
 * Eco Monitoring Hub is a simple web dashboard that tracks live carbon intensity from an energy grid and provides smart recommendations based on environmental impact.
 
